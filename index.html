@@ -3,140 +3,506 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typers Combat | Esoteric Games</title>
+    <title>Esoteric Games | Typers Combat, Typomon Hunter, Outbreak: Type Z</title>
+    <meta name="description" content="Esoteric Games makes typing games where your keyboard is your weapon: Typers Combat, Typomon Hunter, and Outbreak: Type Z.">
+    <meta property="og:title" content="Esoteric Games">
+    <meta property="og:description" content="Typing games where your keyboard is your weapon: Typers Combat, Typomon Hunter, and Outbreak: Type Z.">
+    <meta property="og:image" content="assets/og-image.jpg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#060810">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23060810'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='38' font-weight='bold' text-anchor='middle' fill='%2300e5ff'%3EE_%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #060810;
-            color: #e0e0e0;
-            font-family: 'Courier New', monospace;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        :root {
+            --bg: #060810;
+            --bg-2: #0b0f1c;
+            --panel: #0e1324;
+            --line: #1c2540;
+            --text: #e0e0e0;
+            --muted: #8a93ad;
+            --cyan: #00e5ff;
+            --gold: #ffd700;
+            --pink: #ff2a6d;
+            --purple: #a66bff;
+            --toxic: #3dff8f;
+            --magenta: #ff2bd6;
+            --blood: #ff3b3b;
+            --mono: 'JetBrains Mono', 'Courier New', monospace;
         }
-        .container {
-            max-width: 800px;
-            padding: 60px 24px;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--mono);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        body::before {
+            /* faint grid backdrop */
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line) 1px, transparent 1px);
+            background-size: 48px 48px;
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: -1;
+        }
+        img { max-width: 100%; height: auto; display: block; }
+        a { color: inherit; }
+
+        /* ---------- nav ---------- */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(6, 8, 16, 0.85);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--line);
+        }
+        .nav-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .brand {
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: var(--cyan);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .brand span { color: var(--gold); }
+        .nav-links { display: flex; gap: 22px; list-style: none; }
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--cyan); }
+
+        /* ---------- hero ---------- */
+        .hero {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 90px 24px 70px;
             text-align: center;
         }
-        h1 {
-            font-size: 2.5rem;
-            color: #00e5ff;
-            text-shadow: 0 0 20px #00e5ff44;
-            margin-bottom: 8px;
-            letter-spacing: 4px;
-        }
-        .studio {
-            color: #ffd700;
-            font-size: 0.9rem;
-            letter-spacing: 6px;
-            margin-bottom: 40px;
-        }
-        .ascii-art {
-            color: #00e5ff;
-            font-size: 12px;
-            line-height: 1.3;
-            margin: 30px 0;
-            text-shadow: 0 0 8px #00e5ff33;
-        }
-        .tagline {
-            font-size: 1.1rem;
-            color: #aaa;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
-        .links {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 50px;
-        }
-        .links a {
-            color: #060810;
-            background: #00e5ff;
-            padding: 12px 28px;
-            text-decoration: none;
-            font-weight: bold;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-        .links a:hover {
-            background: #ffd700;
-            box-shadow: 0 0 16px #ffd70044;
-        }
-        .features {
+        .terminal {
+            display: inline-block;
             text-align: left;
-            margin: 40px 0;
-            line-height: 2;
-            color: #ccc;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 14px 20px;
+            margin-bottom: 36px;
+            font-size: 0.9rem;
+            color: var(--muted);
+            box-shadow: 0 0 40px #00e5ff14;
         }
-        .features span {
-            color: #00e5ff;
+        .terminal .prompt { color: var(--gold); }
+        .terminal .typed { color: var(--cyan); }
+        .cursor {
+            display: inline-block;
+            width: 0.6em;
+            height: 1.1em;
+            background: var(--cyan);
+            vertical-align: text-bottom;
+            animation: blink 1s steps(1) infinite;
         }
-        .divider {
-            color: #00e5ff33;
-            margin: 40px 0;
-            letter-spacing: 8px;
+        @keyframes blink { 50% { opacity: 0; } }
+        .hero h1 {
+            font-size: clamp(2.2rem, 7vw, 4.4rem);
+            font-weight: 800;
+            letter-spacing: 6px;
+            color: var(--cyan);
+            text-shadow: 0 0 24px #00e5ff55;
+            line-height: 1.1;
         }
-        footer {
-            margin-top: 60px;
-            color: #555;
-            font-size: 0.75rem;
-            line-height: 2;
+        .hero h1 span { color: var(--gold); text-shadow: 0 0 24px #ffd70044; }
+        .hero p {
+            color: var(--muted);
+            max-width: 620px;
+            margin: 20px auto 0;
+            font-size: 1.05rem;
         }
-        footer a {
-            color: #777;
+
+        .game-tiles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 56px;
+        }
+        .tile {
+            position: relative;
+            display: block;
+            aspect-ratio: 920 / 430;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            overflow: hidden;
             text-decoration: none;
+            transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
         }
-        footer a:hover {
-            color: #00e5ff;
+        .tile:hover { transform: translateY(-4px); }
+        .tile img { width: 100%; height: 100%; object-fit: cover; }
+        .tile.typers { background: radial-gradient(circle at 50% 40%, #1a1030, #060810 70%); }
+        .tile.typers img { object-fit: contain; padding: 12% 10%; }
+        .tile.typers:hover { border-color: var(--pink); box-shadow: 0 0 24px #ff2a6d44; }
+        .tile.typomon:hover { border-color: var(--purple); box-shadow: 0 0 24px #a66bff44; }
+        .tile.outbreak:hover { border-color: var(--toxic); box-shadow: 0 0 24px #3dff8f44; }
+        .tile .label {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            padding: 3px 8px;
+            border-radius: 3px;
+            background: rgba(6, 8, 16, 0.85);
+            color: var(--text);
+        }
+
+        /* ---------- game sections ---------- */
+        .game {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 90px 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 56px;
+            align-items: center;
+            border-top: 1px solid var(--line);
+            scroll-margin-top: 60px;
+        }
+        .game.flip .game-media { order: 2; }
+        .game-media { display: grid; gap: 16px; }
+        .frame {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--panel);
+        }
+        .status {
+            display: inline-block;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            padding: 4px 10px;
+            border: 1px solid currentColor;
+            border-radius: 3px;
+            margin-bottom: 18px;
+        }
+        .game h2 {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            letter-spacing: 3px;
+            line-height: 1.15;
+            margin-bottom: 14px;
+        }
+        .game .pitch { color: #c4c9d8; font-size: 1.02rem; margin-bottom: 22px; }
+        .features { list-style: none; margin-bottom: 30px; }
+        .features li {
+            padding-left: 22px;
+            position: relative;
+            color: #b8bdcc;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+        .features li::before { content: ">"; position: absolute; left: 0; font-weight: 800; }
+        .buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-family: var(--mono);
+            font-weight: 800;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-decoration: none;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+        .btn.ghost { background: transparent; }
+        .btn.disabled { opacity: 0.55; cursor: default; }
+
+        /* per-game accent colors */
+        .typers-sec h2 { color: var(--pink); }
+        .typers-sec .status, .typers-sec .features li::before { color: var(--cyan); }
+        .typers-sec .btn { background: var(--cyan); color: var(--bg); }
+        .typers-sec .btn.ghost { color: var(--cyan); border-color: var(--cyan); background: transparent; }
+        .typers-sec .btn:hover { background: var(--gold); color: var(--bg); box-shadow: 0 0 16px #ffd70055; }
+        .typers-logo {
+            background: radial-gradient(circle at 50% 40%, #1a1030, #060810 70%);
+            padding: 40px 30px;
+        }
+        .typers-logo img { margin: 0 auto; max-width: 420px; width: 100%; }
+
+        .typomon-sec h2 { color: var(--purple); }
+        .typomon-sec .status, .typomon-sec .features li::before { color: var(--purple); }
+        .typomon-sec .btn { background: var(--purple); color: var(--bg); }
+        .typomon-sec .btn:hover { background: var(--cyan); box-shadow: 0 0 16px #00e5ff55; }
+        .types { display: flex; flex-wrap: wrap; gap: 6px; margin: -8px 0 26px; }
+        .types span {
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            padding: 3px 8px;
+            border: 1px solid var(--line);
+            border-radius: 3px;
+            color: var(--muted);
+        }
+
+        .outbreak-wrap {
+            scroll-margin-top: 60px;
+            border-top: 1px solid var(--line);
+            background:
+                linear-gradient(180deg, var(--bg) 0%, rgba(6, 8, 16, 0.55) 30%, rgba(6, 8, 16, 0.55) 70%, var(--bg) 100%),
+                url("assets/outbreak/background.webp") center / cover no-repeat;
+        }
+        .outbreak-banner {
+            position: relative;
+            min-height: clamp(220px, 32vw, 420px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 16px;
+            background: url("assets/outbreak/hero.webp") center / cover no-repeat;
+            mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+            -webkit-mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+        }
+        .outbreak-banner img {
+            width: min(560px, 80%);
+            filter: drop-shadow(0 0 30px #ff2bd655);
+        }
+        .outbreak-sec { border-top: none; padding-top: 30px; }
+        .outbreak-sec h2 { color: var(--toxic); text-shadow: 0 0 18px #3dff8f44; }
+        .outbreak-sec .status { color: var(--magenta); }
+        .outbreak-sec .features li::before { color: var(--blood); }
+        .outbreak-sec .btn { background: var(--toxic); color: var(--bg); }
+        .outbreak-sec .btn.disabled { background: transparent; color: var(--toxic); border-color: var(--toxic); }
+
+        .video {
+            position: relative;
+            aspect-ratio: 16 / 9;
+        }
+        .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+        /* ---------- footer ---------- */
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 60px 24px;
+            text-align: center;
+            color: #59607a;
+            font-size: 0.78rem;
+            line-height: 2;
+        }
+        footer .brand { display: inline-block; margin-bottom: 10px; font-size: 1rem; }
+        footer a { color: #8a93ad; text-decoration: none; }
+        footer a:hover { color: var(--cyan); }
+
+        /* ---------- reveal on scroll ---------- */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s, transform 0.7s; }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        @media (max-width: 860px) {
+            .nav-links { display: none; }
+            .game { grid-template-columns: 1fr; gap: 32px; padding: 64px 16px; }
+            .game.flip .game-media { order: 0; }
+            .game-tiles { grid-template-columns: 1fr; max-width: 460px; margin-left: auto; margin-right: auto; }
+            .hero { padding: 64px 16px 48px; }
+            .terminal { white-space: nowrap; font-size: 0.8rem; padding: 12px 16px; }
+            .terminal .host { display: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .cursor { animation: none; }
+            .reveal { opacity: 1; transform: none; transition: none; }
+            .tile, .tile:hover { transition: none; transform: none; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="ascii-art">
-<pre>
-  ╔═══════════════════════════╗
-  ║   T Y P E   T O   K I L L   ║
-  ╚═══════════════════════════╝
-</pre>
+    <nav>
+        <div class="nav-inner">
+            <a class="brand" href="#top">ESOTERIC<span>//</span>GAMES</a>
+            <ul class="nav-links">
+                <li><a href="#typers-combat">TYPERS COMBAT</a></li>
+                <li><a href="#typomon-hunter">TYPOMON HUNTER</a></li>
+                <li><a href="#outbreak-type-z">OUTBREAK: TYPE Z</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
         </div>
+    </nav>
 
-        <h1>TYPERS COMBAT</h1>
-        <div class="studio">ESOTERIC GAMES</div>
-
-        <p class="tagline">
-            A typing combat game where your keyboard is your weapon.<br>
-            Fight enemies, climb the ranks, and prove your speed.
-        </p>
-
-        <div class="links">
-            <a href="https://store.steampowered.com/app/3211030/Typers_Combat/" target="_blank">STEAM</a>
-            <a href="https://store.epicgames.com" target="_blank">EPIC</a>
-            <a href="https://play.google.com/store" target="_blank">ANDROID</a>
+    <header class="hero" id="top">
+        <div class="terminal" aria-hidden="true">
+            <span class="prompt"><span class="host">esoteric@games:~</span>$</span> <span class="typed" id="typed"></span><span class="cursor"></span>
         </div>
+        <h1>ESOTERIC <span>GAMES</span></h1>
+        <p>Indie games where your keyboard is your weapon. Type faster, hit harder, survive longer.</p>
 
-        <div class="divider">═══════════════════</div>
-
-        <div class="features">
-            <span>&gt;</span> Six game modes: Campaign, VS, Survival, Practice, Challenges, Daily<br>
-            <span>&gt;</span> Ghost Code async multiplayer — fight real player recordings<br>
-            <span>&gt;</span> Live ranked matchmaking with ELO rating system<br>
-            <span>&gt;</span> Cross-platform play across Steam, Epic, and Android<br>
-            <span>&gt;</span> Original ASCII pixel art aesthetic<br>
-            <span>&gt;</span> Unlockable portraits, frames, colors, and effects<br>
-            <span>&gt;</span> Prestige system with infinite scaling difficulty<br>
-            <span>&gt;</span> Daily challenges and global leaderboards<br>
+        <div class="game-tiles">
+            <a class="tile typers" href="#typers-combat">
+                <img src="assets/typers/logo.webp" alt="Typers Combat" width="623" height="280">
+                <span class="label">TYPERS COMBAT</span>
+            </a>
+            <a class="tile typomon" href="#typomon-hunter">
+                <img src="assets/typomon/header.webp" alt="Typomon Hunter" width="920" height="430">
+                <span class="label">TYPOMON HUNTER</span>
+            </a>
+            <a class="tile outbreak" href="#outbreak-type-z">
+                <img src="assets/outbreak/header.webp" alt="Outbreak: Type Z" width="920" height="430">
+                <span class="label">OUTBREAK: TYPE Z</span>
+            </a>
         </div>
+    </header>
 
-        <div class="divider">═══════════════════</div>
+    <main>
+        <!-- ===================== TYPERS COMBAT ===================== -->
+        <section class="game typers-sec reveal" id="typers-combat">
+            <div class="game-media">
+                <div class="frame typers-logo">
+                    <img src="assets/typers/logo.webp" alt="Typers Combat logo" width="623" height="280" loading="lazy">
+                </div>
+                <div class="frame video">
+                    <iframe src="https://www.youtube-nocookie.com/embed/IhHbE_3vkW4" title="Typers Combat Official Trailer" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="frame">
+                    <img src="assets/typers/screenshot.webp" alt="Typers Combat gameplay: typing a sentence to attack an ASCII opponent" width="1600" height="633" loading="lazy">
+                </div>
+            </div>
+            <div class="game-info">
+                <span class="status">OUT NOW</span>
+                <h2>TYPERS COMBAT</h2>
+                <p class="pitch">
+                    A typing combat game where every keystroke is a weapon. Sentences appear on screen,
+                    type them right to deal damage, and type faster for bigger combos and more destruction.
+                </p>
+                <ul class="features">
+                    <li>Seven game modes, from Campaign and Survival to Daily challenges</li>
+                    <li>Ghost Code async multiplayer: fight real player recordings</li>
+                    <li>Live ranked matchmaking with ELO ratings and global leaderboards</li>
+                    <li>Cross-platform play across Steam, Epic, and Android</li>
+                    <li>Original ASCII pixel art aesthetic</li>
+                    <li>50+ unlockable portraits, plus frames, colors, and effects</li>
+                    <li>Prestige system with infinite scaling difficulty</li>
+                </ul>
+                <div class="buttons">
+                    <a class="btn" href="https://store.steampowered.com/app/4351960/Typers_Combat/" target="_blank" rel="noopener">STEAM</a>
+                    <a class="btn" href="https://store.epicgames.com/en-US/p/typers-combat-23ed78" target="_blank" rel="noopener">EPIC</a>
+                    <a class="btn ghost" href="https://play.google.com/store" target="_blank" rel="noopener">ANDROID</a>
+                </div>
+            </div>
+        </section>
 
-        <footer>
-            &copy; 2025 Esoteric Games. All rights reserved.<br>
-            <a href="https://www.freeprivacypolicy.com/live/237eccd3-9c7f-4d4c-9cdb-c9ab7cb95fb4" target="_blank">Privacy Policy</a> &middot;
-            <a href="mailto:guyverphd@gmail.com">Contact<
+        <!-- ===================== TYPOMON HUNTER ===================== -->
+        <section class="game typomon-sec flip reveal" id="typomon-hunter">
+            <div class="game-media">
+                <div class="frame">
+                    <img src="assets/typomon/hero.webp" alt="Typomon Hunter logo over a neon cyber grid" width="1232" height="706" loading="lazy">
+                </div>
+            </div>
+            <div class="game-info">
+                <span class="status">EARLY ACCESS</span>
+                <h2>TYPOMON HUNTER</h2>
+                <p class="pitch">
+                    A typing roguelike monster collector. A phishing link has unleashed digital chaos, and only
+                    your keyboard can save the day. Your words per minute power every attack, but watch out:
+                    typos can hurt your own team.
+                </p>
+                <ul class="features">
+                    <li>Battle and catch 88+ species of Typomon</li>
+                    <li>Evolution, dual-type fusion, word forging, and a 6-tier bond system</li>
+                    <li>Procedural dungeons across 16 biomes, with 8 bosses and 5 trainer battles</li>
+                    <li>10,000+ typing sentences, 40+ quests, and 10 glitch mode mutators</li>
+                    <li>Local VS battles with an ELO ladder</li>
+                </ul>
+                <div class="types" aria-label="Elemental types">
+                    <span>SCIENCE</span><span>TECH</span><span>LORE</span><span>MYTH</span>
+                    <span>ARCANE</span><span>NATURE</span><span>HISTORY</span><span>COMBAT</span>
+                </div>
+                <div class="buttons">
+                    <a class="btn" href="https://store.steampowered.com/app/4429150/" target="_blank" rel="noopener">STEAM</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== OUTBREAK: TYPE Z ===================== -->
+        <!-- TODO: fill in game copy and the Steam link once the store page is public -->
+        <div class="outbreak-wrap" id="outbreak-type-z">
+        <div class="outbreak-banner">
+            <img src="assets/outbreak/logo.webp" alt="Outbreak: Type Z logo" width="1000" height="468" loading="lazy">
+        </div>
+        <section class="game outbreak-sec reveal">
+            <div class="game-media">
+                <div class="frame">
+                    <img src="assets/outbreak/main.webp" alt="Outbreak: Type Z key art: survivors fighting off a zombie horde" width="1232" height="706" loading="lazy">
+                </div>
+            </div>
+            <div class="game-info">
+                <span class="status">IN DEVELOPMENT</span>
+                <h2>OUTBREAK: TYPE Z</h2>
+                <p class="pitch">
+                    The dead are coming, and your keyboard is all that stands between you and the horde.
+                    Type to survive.
+                </p>
+                <ul class="features">
+                    <li>Demo: <em>Last Stand</em></li>
+                    <li>More details coming soon</li>
+                </ul>
+                <div class="buttons">
+                    <span class="btn disabled">STEAM PAGE COMING SOON</span>
+                </div>
+            </div>
+        </section>
+        </div>
+    </main>
+
+    <footer id="contact">
+        <a class="brand" href="#top">ESOTERIC<span>//</span>GAMES</a><br>
+        <a href="mailto:guyverphd@gmail.com">guyverphd@gmail.com</a><br>
+        <a href="https://www.freeprivacypolicy.com/live/237eccd3-9c7f-4d4c-9cdb-c9ab7cb95fb4" target="_blank" rel="noopener">Privacy Policy</a><br>
+        &copy; 2026 Esoteric Games. All rights reserved.
+    </footer>
+
+    <script>
+        // Terminal typing loop in the hero
+        (function () {
+            const el = document.getElementById('typed');
+            const lines = ['./typers_combat --ranked', './typomon_hunter --catch-em', './outbreak_type_z --last-stand'];
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                el.textContent = lines[0];
+                return;
+            }
+            let line = 0, i = 0, deleting = false;
+            (function tick() {
+                const text = lines[line];
+                el.textContent = text.slice(0, i);
+                if (!deleting && i < text.length) { i++; setTimeout(tick, 70 + Math.random() * 60); }
+                else if (!deleting) { deleting = true; setTimeout(tick, 1600); }
+                else if (i > 0) { i--; setTimeout(tick, 30); }
+                else { deleting = false; line = (line + 1) % lines.length; setTimeout(tick, 400); }
+            })();
+        })();
+
+        // Fade sections in as they scroll into view
+        (function () {
+            const items = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window)) { items.forEach(el => el.classList.add('visible')); return; }
+            const io = new IntersectionObserver(entries => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+            }, { threshold: 0.12 });
+            items.forEach(el => io.observe(el));
+        })();
+    </script>
+</body>
+</html>
